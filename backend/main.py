@@ -29,15 +29,15 @@ def create_todo():
   return jsonify({"message": "Todo created!"}), 201
 
 @app.route("/update_todo/<int:todo_id>", methods=["PATCH"])
-def update_contact(todo_id):
+def update_todo(todo_id):
   todo = ToDo.query.get(todo_id)
 
   if not todo:
     return jsonify({"message": "Todo not found"}), 404
 
   data = request.json
-  todo.title = todo.get("title", todo.title)
-  todo.description = todo.get("description", todo.description)
+  todo.title = data.get("title", todo.title)
+  todo.description = data.get("description", todo.description)
 
   db.session.commit()
 
