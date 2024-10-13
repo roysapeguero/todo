@@ -5,7 +5,6 @@ import ToDoForm from "./ToDoForm";
 
 function App() {
   const [todos, setTodos] = useState([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentToDo, setCurrentToDo] = useState({});
 
   useEffect(() => {
@@ -19,45 +18,20 @@ function App() {
     console.log(data.todos);
   };
 
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setCurrentToDo({});
-  };
-
-  const openCreateModal = () => {
-    if (!isModalOpen) setIsModalOpen(true);
-  };
-
-  const openEditModal = (todo) => {
-    if (isModalOpen) return;
+  const editToDo = (todo) => {
     setCurrentToDo(todo);
-    setIsModalOpen(true);
   };
 
   const onUpdate = () => {
-    closeModal();
     fetchTodos();
   };
 
   return (
-    <>
-      <ToDoList
-        todos={todos}
-        updateToDo={openEditModal}
-        updateCallback={onUpdate}
-      />
-      <button onClick={openCreateModal}>Create New ToDo</button>
-      {isModalOpen && (
-        <div className="modal">
-          <div className="modal-content">
-            <span className="close" onClick={closeModal}>
-              &times;
-            </span>
-            <ToDoForm existingToDo={currentToDo} updateCallback={onUpdate} />
-          </div>
-        </div>
-      )}
-    </>
+    <div className="content-container">
+      <ToDoForm existingToDo={currentToDo} updateCallback={onUpdate} />
+      <h3>Todos: </h3>
+      <ToDoList todos={todos} updateToDo={editToDo} updateCallback={onUpdate} />
+    </div>
   );
 }
 

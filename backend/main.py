@@ -11,15 +11,14 @@ def get_todos():
 @app.route("/create_todo", methods=["POST"])
 def create_todo():
   title = request.json.get("title")
-  description = request.json.get("description")
 
-  if not title or not description:
+  if not title:
     return (
-      jsonify({"message": "You must include a title and description"}),
+      jsonify({"message": "Todo must have a title"}),
       400
     )
 
-  new_todo = ToDo(title=title, description=description)
+  new_todo = ToDo(title=title)
   try:
     db.session.add(new_todo)
     db.session.commit()
@@ -37,7 +36,6 @@ def update_todo(todo_id):
 
   data = request.json
   todo.title = data.get("title", todo.title)
-  todo.description = data.get("description", todo.description)
 
   db.session.commit()
 

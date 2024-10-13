@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
+
+import trash_icon from "./icons8-trash-64.png";
 
 const ToDoList = ({ todos, updateToDo, updateCallback }) => {
   const onDelete = async (id) => {
@@ -21,29 +23,22 @@ const ToDoList = ({ todos, updateToDo, updateCallback }) => {
   };
 
   return (
-    <div>
-      <h2>Todos</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Title</th>
-            <th>Description</th>
-          </tr>
-        </thead>
-        <tbody>
-          {todos.map((todo) => (
-            <tr key={todo.id}>
-              <td>{todo.id}</td>
-              <td>{todo.title}</td>
-              <td>{todo.description}</td>
-              <td>
-                <button onClick={() => updateToDo(todo)}>Update</button>
-                <button onClick={() => onDelete(todo.id)}>Delete</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="todo-list-container">
+      {todos.map((todo) => (
+        <div className="todo-item-container" key={todo.id}>
+          <div className="todo-item">
+            {todo.title}
+            <button className="delete-button" onClick={() => onDelete(todo.id)}>
+              <img src={trash_icon} alt="trash icon" />
+            </button>
+          </div>
+        </div>
+      ))}
+      {todos.length ? (
+        <p className="todo-count">You have {todos.length} todos left 😄</p>
+      ) : (
+        <p className="none-todo">You have no todos!</p>
+      )}
     </div>
   );
 };

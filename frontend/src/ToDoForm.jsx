@@ -2,9 +2,6 @@ import { useState } from "react";
 
 const ToDoForm = ({ existingToDo = {}, updateCallback }) => {
   const [title, setTitle] = useState(existingToDo.title || "");
-  const [description, setDescription] = useState(
-    existingToDo.description || ""
-  );
 
   const updating = Object.entries(existingToDo).length !== 0;
 
@@ -13,7 +10,6 @@ const ToDoForm = ({ existingToDo = {}, updateCallback }) => {
 
     const data = {
       title,
-      description,
     };
 
     const url =
@@ -33,30 +29,26 @@ const ToDoForm = ({ existingToDo = {}, updateCallback }) => {
       alert(data.message);
     } else {
       updateCallback();
+      setTitle("");
     }
   };
 
   return (
-    <form onSubmit={onSubmit}>
-      <div>
-        <label htmlFor="title">Title:</label>
+    <form className="form" onSubmit={onSubmit}>
+      <h2>Todo App</h2>
+      <div className="todo-create-form">
         <input
+          className="todo-input"
+          placeholder="Add your new todo"
           type="text"
           id="title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
+        <button className="todo-add-button" type="submit">
+          +
+        </button>
       </div>
-      <div>
-        <label htmlFor="description">Description:</label>
-        <input
-          type="text"
-          id="description"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
-      </div>
-      <button type="submit">{updating ? "Update" : "Create"}</button>
     </form>
   );
 };
